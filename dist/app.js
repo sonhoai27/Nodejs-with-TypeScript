@@ -5,11 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const index_api_1 = __importDefault(require("./api/index.api"));
 class App {
     constructor() {
         this.app = express_1.default();
         this.init();
         this.mountRoute();
+        this.handleError();
     }
     init() {
         this.app.use(body_parser_1.default.urlencoded({ extended: false }));
@@ -23,6 +25,11 @@ class App {
             }
             next();
         });
+    }
+    mountRoute() {
+        new index_api_1.default(this.app);
+    }
+    handleError() {
         this.app.use((req, res, next) => {
             const error = new Error("Not found");
             error.status = 404;
@@ -37,13 +44,6 @@ class App {
                 }
             });
         });
-    }
-    mountRoute() {
-        const router = express_1.default.Router();
-        router.get("/", (req, res, next) => {
-            res.send("Hello");
-        });
-        this.app.use("/", router);
     }
 }
 exports.default = new App().app;

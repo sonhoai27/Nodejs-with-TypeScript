@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from "body-parser"
+import api from "./api/index.api"
 class App {
     public app:any
 
@@ -7,6 +8,7 @@ class App {
         this.app = express()
         this.init()
         this.mountRoute()
+        this.handleError()
     }
 
     private init(){
@@ -27,7 +29,11 @@ class App {
             }
             next();
         });
-
+    }
+    private mountRoute(){
+        new api(this.app)
+    }
+    private handleError(){
         this.app.use((req:any, res:any, next:any) => {
             const error:any = new Error("Not found");
             error.status = 404;
@@ -43,13 +49,6 @@ class App {
             }
             });
         });
-    }
-    private mountRoute(){
-        const router = express.Router()
-        router.get("/", (req, res, next)=> {
-            res.send("Hello")
-        })
-        this.app.use("/", router)
     }
 }
 
