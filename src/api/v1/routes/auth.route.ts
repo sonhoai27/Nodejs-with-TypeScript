@@ -7,7 +7,7 @@ class Auth {
     }
     mountRoute(){
         this.router.get("/", (req, res,next)=> {
-            res.send("Say hello Nodejs With TypeScript!")
+            res.send("Say hello Nodejs With TypeScript")
         })
     }
 }

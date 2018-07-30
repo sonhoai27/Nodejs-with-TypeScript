@@ -17,5 +17,6 @@ const server = http.createServer(app_1.default);
 server.listen(port, function () {
     console.log("Server started with port: ", server.address().port);
 });
+console.log("AA");
 exports.default = server;
 //# sourceMappingURL=server.js.map
